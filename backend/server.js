@@ -32,7 +32,6 @@ app.use(express.json());
 app.use(express.static(publicDir));
 
 app.use("/", pagesRouter);
-
 app.use("/api/posts", postsRouter);
 
 app.use((req, res) => {
