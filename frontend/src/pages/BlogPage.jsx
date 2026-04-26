@@ -9,7 +9,7 @@ function BlogPage() {
 	useEffect(() => {
 		async function fetchPosts() {
 			try {
-				const response = await fetch('/api/posts')
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/api/posts`)
 
 				if (!response.ok) {
 					throw new Error('Failed to fetch posts')

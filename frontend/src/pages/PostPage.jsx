@@ -13,7 +13,9 @@ function PostPage() {
 	useEffect(() => {
 		async function fetchPost() {
 			try {
-				const response = await fetch(`/api/posts/${id}`)
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/api/posts/${id}`,
+				)
 
 				if (!response.ok) {
 					throw new Error("Couldn't find that post")
@@ -32,14 +34,18 @@ function PostPage() {
 	}, [id])
 
 	async function handleDelete() {
-    if (!window.confirm('Are you sure you want to delete this post?')) return
+		if (!window.confirm('Are you sure you want to delete this post?')) return
 
 		setDeleting(true)
-    
-    try {
-			const response = await fetch(`/api/posts/${id}`, {
-				method: 'DELETE'
-			})
+		setError(null)
+
+		try {
+			const response = await fetch(
+				`${import.meta.env.VITE_API_URL}/api/posts/${id}`,
+				{
+					method: 'DELETE',
+				},
+			)
 
 			if (!response.ok) {
 				throw new Error('Failed to delete a post')
@@ -48,11 +54,9 @@ function PostPage() {
 			navigate(`/blog`)
 		} catch (err) {
 			setError(err.message)
-			
 		} finally {
-      setDeleting(false)
-    }
-
+			setDeleting(false)
+		}
 	}
 
 	if (loading) return <p className='status-msg'>Loading…</p>

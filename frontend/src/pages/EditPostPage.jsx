@@ -14,7 +14,7 @@ function EditPostPage() {
 	useEffect(() => {
 		async function fetchPost() {
 			try {
-				const response = await fetch(`/api/posts/${id}`)
+				const response = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/${id}`)
 
 				if (!response.ok) {
 					throw new Error("Couldn't find that post")
@@ -46,7 +46,7 @@ function EditPostPage() {
 				content: form.content.value,
 			}
 
-			const response = await fetch(`/api/posts/${id}`, {
+			const response = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/${id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
