@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 require('dotenv').config()
 
 const postsRouter = require('./routes/posts')
@@ -23,7 +24,7 @@ async function connectToDatabase() {
 		process.exit(1) // stop the server
 	}
 }
-
+app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
@@ -43,7 +44,7 @@ app.use('/api/posts', postsRouter)
 
 connectToDatabase().then(() => {
 	app.listen(PORT, () => {
-		console.log(`Server is running on http://localhost:${PORT}`)
+		console.log(`Server is running on port ${PORT}`)
 		console.log('Mounted routers:')
 		console.log('  /api/posts -> routes/posts.js')
 	})
