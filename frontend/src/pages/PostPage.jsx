@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 
-// TODO (student): Implement single-post view and delete flow.
-// Suggested steps:
-// 1) Fetch a single post with GET /api/posts/:id.
-// 2) Render title, author, date, and content.
-// 3) Add delete handler with DELETE /api/posts/:id.
-// 4) Navigate back to /blog after successful delete.
 function PostPage() {
 	const { id } = useParams()
 	const navigate = useNavigate()
@@ -38,10 +32,27 @@ function PostPage() {
 	}, [id])
 
 	async function handleDelete() {
-		// TODO (student): Implement DELETE /api/posts/:id and navigate('/blog').
+    if (!window.confirm('Are you sure you want to delete this post?')) return
+
 		setDeleting(true)
-		setError('TODO: implement DELETE /api/posts/:id in PostPage')
-		setDeleting(false)
+    
+    try {
+			const response = await fetch(`/api/posts/${id}`, {
+				method: 'DELETE'
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to delete a post')
+			}
+
+			navigate(`/blog`)
+		} catch (err) {
+			setError(err.message)
+			
+		} finally {
+      setDeleting(false)
+    }
+
 	}
 
 	if (loading) return <p className='status-msg'>Loading…</p>
